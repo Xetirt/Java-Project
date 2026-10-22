@@ -1,28 +1,25 @@
 package com.example.deliverybooks.functionals_manual;
+
 import com.example.deliverybooks.domain.shared.valueobjects.Phone;
-public class PhoneTests {
+
+public final class PhoneTests {
+    private PhoneTests() {}
     public static void main(String[] args) {
-        
-        // Test 1: Móvil válido con prefijo +34
-        try {
-            Phone p1 = new Phone("+34 612 34 56 78");
-            System.out.println("Phone Accepted: " + p1.phone());
-        } catch (IllegalArgumentException ex) {
-            System.out.println(ex.getMessage());
+        int passed = 0, failed = 0;
+        String[] valid = {"+34 612 34 56 78", "931234567", "0034-600-123-456"};
+        for (String value : valid) {
+            try {
+                Phone phone = new Phone(value);
+                if (phone.phone() == null || phone.phone().length() != 9) throw new IllegalStateException("Normalización incorrecta");
+                System.out.println("[VERDE] Teléfono válido: " + phone.phone()); passed++;
+            } catch (Exception e) { System.out.println("[ROJO] Teléfono válido: " + e.getMessage()); failed++; }
         }
-        // Test 2: Fijo válido estándar
-        try {
-            Phone p2 = new Phone("931234567");
-            System.out.println("Phone Accepted: " + p2.phone());
-        } catch (IllegalArgumentException ex) {
-            System.out.println(ex.getMessage());
+        String[] invalid = {null, "", "512345678", "123", "abcdefghij"};
+        for (String value : invalid) {
+            try { new Phone(value); System.out.println("[ROJO] Teléfono inválido aceptado: " + value); failed++; }
+            catch (IllegalArgumentException e) { System.out.println("[VERDE] Teléfono inválido rechazado: " + value); passed++; }
         }
-        // Test 3: Teléfono no válido (comienza por 5)
-        try {
-            Phone p3 = new Phone("512345678");
-            System.out.println("Phone Accepted: " + p3.phone());
-        } catch (IllegalArgumentException ex) {
-            System.out.println(ex.getMessage());
-        }
+        System.out.println("Teléfono: " + passed + " correctas, " + failed + " fallidas.");
+        if (failed > 0) throw new IllegalStateException("Pruebas Phone fallidas");
     }
 }

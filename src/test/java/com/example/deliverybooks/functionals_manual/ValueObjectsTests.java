@@ -1,31 +1,28 @@
 package com.example.deliverybooks.functionals_manual;
+
 import com.example.deliverybooks.domain.shared.valueobjects.Addressc;
 import com.example.deliverybooks.domain.shared.valueobjects.Addressr;
-public class ValueObjectsTests {
+
+public final class ValueObjectsTests {
+    private ValueObjectsTests() {}
     public static void main(String[] args) {
-        System.out.println("FUNCTIONAL MANUAL TESTS");
-        Addressr adr = null;
+        int passed = 0, failed = 0;
         try {
-            adr = new Addressr("ca", "Madrid", "123", "Spain");
-            System.out.println(adr.toString());
-            System.out.println(adr.city() + ":" + adr.country());
-            Addressr adr2 = new Addressr("carrer", "Madrid", "1", "Spain");
-            if (adr.equals(adr2)) {
-                System.out.println("Same Address");
-            }
-        } catch (IllegalArgumentException e) {
-            System.out.println(e.getMessage());
-        }
+            Addressc address = new Addressc("Calle Mayor 12", "Madrid", "28001", "España");
+            if (!address.getValue().contains("Madrid")) throw new IllegalStateException("Dirección incompleta");
+            Addressr recipient = new Addressr("Calle Mayor 12", "Madrid", "28001", "España");
+            if (!"Madrid".equals(recipient.city())) throw new IllegalStateException("Ciudad incorrecta");
+            System.out.println("[VERDE] Addressc y Addressr válidos"); passed++;
+        } catch (Exception e) { System.out.println("[ROJO] Dirección válida: " + e.getMessage()); failed++; }
         try {
-            Addressc adc = new Addressc("carrer major 4", "Madrid", "00869", "Spain");
-            System.out.println(adc.getValue());
-            if (adr != null) {
-                adr = new Addressr(adr.street(), adr.city(), adr.zipCode(), "Portugal");
-                System.out.println(adr.toString());
-            }
-            System.out.println(adc.getCity() + ":" + adc.getCountry());
-        } catch (IllegalArgumentException e) {
-            System.out.println(e.getMessage());
-        }
+            new Addressc("C", "Madrid", "28001", "España");
+            System.out.println("[ROJO] Se aceptó una calle demasiado corta"); failed++;
+        } catch (IllegalArgumentException e) { System.out.println("[VERDE] Calle inválida rechazada"); passed++; }
+        try {
+            new Addressr("Calle Mayor 12", "Madrid", "12", "España");
+            System.out.println("[ROJO] Se aceptó un código postal inválido"); failed++;
+        } catch (IllegalArgumentException e) { System.out.println("[VERDE] Código postal inválido rechazado"); passed++; }
+        System.out.println("Value Objects: " + passed + " correctas, " + failed + " fallidas.");
+        if (failed > 0) throw new IllegalStateException("Pruebas Value Objects fallidas");
     }
 }
