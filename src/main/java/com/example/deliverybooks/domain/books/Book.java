@@ -2,7 +2,11 @@ package com.example.deliverybooks.domain.books;
 
 import java.math.BigDecimal;
 import java.util.Objects;
+import java.time.LocalDate;
+import java.util.Set;
+import java.util.HashSet;
 
+import com.example.deliverybooks.domain.shared.valueobjects.mesurament.Dimensions;
 import com.example.deliverybooks.domain.shared.valueobjects.mesurament.Weight;
 
 public class Book {
@@ -10,8 +14,16 @@ public class Book {
     private String isbn;
     private String title;
     private String author;
+    private LocalDate releaseDate;
+    private String language;
+    private int minimumAge;
+    private BindingType binding; //Hacer el valueobject BindingType.php
+    private Dimensions dimensions; //Hacer el valueobject Dimensions.php
+    private Weight weight;
+    private String saga;
+    private String sinopsis;
+    private Set<String> Genre = new HashSet<>();
     private BigDecimal price;
-    private Weight weight; // Integración del Value Object Weight para el peso del libro
 
     public Book(String isbn, String title, String author, BigDecimal price, Weight weight) {
         this.isbn = Objects.requireNonNull(isbn, "ISBN cannot be null");
