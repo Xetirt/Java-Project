@@ -6,8 +6,7 @@ import org.junit.jupiter.api.Test;
 import com.example.deliverybooks.domain.clients.*;
 import com.example.deliverybooks.domain.shared.valueobjects.*;
 
-class ClientTest {
-
+public class ClientTests {
     @Test
     void shouldCreateValidClient() {
         Client client = Client.of(
@@ -19,7 +18,6 @@ class ClientTest {
                 Addressc.of("Calle Mayor 12", "Viladecans", "08840", "España"),
                 LocalDateTime.of(2007, 5, 10, 10, 0)
         );
-
         assertEquals("Xavier Ramírez", client.getFullname());
         assertEquals("NIE: X1234567L", client.getTipoLegalID());
     }

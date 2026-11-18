@@ -1,8 +1,9 @@
 package com.example.deliverybooks.domain.orders;
 
 import java.math.BigDecimal;
+
 import com.example.deliverybooks.domain.books.Book;
-import com.example.deliverybooks.domain.shared.validations.Checker;
+import com.example.deliverybooks.domain.shared.validations.Check;
 
 public class OrderDetails {
     private final Book book;
@@ -10,11 +11,11 @@ public class OrderDetails {
     private final BigDecimal salePrice;
 
     private OrderDetails(Book book, Integer quantity, BigDecimal salePrice) {
-        this.book = Checker.notNull(book, "book");
-        Checker.notNull(quantity, "quantity");
-        Checker.positiveInt(quantity, "quantity");
+        this.book = Check.notNull(book, "book");
+        Check.notNull(quantity, "quantity");
+        Check.positiveInt(quantity, "quantity");
         this.quantity = quantity;
-        this.salePrice = Checker.positive(salePrice, "salePrice");
+        this.salePrice = Check.positive(salePrice, "salePrice");
     }
 
     public static OrderDetails of(Book book, Integer quantity, BigDecimal salePrice) {

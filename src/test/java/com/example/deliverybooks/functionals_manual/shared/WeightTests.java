@@ -1,13 +1,15 @@
 package com.example.deliverybooks.functionals_manual.shared;
 
-import static org.junit.jupiter.api.Assertions.*;
 import java.math.BigDecimal;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import org.junit.jupiter.api.Test;
+
 import com.example.deliverybooks.domain.shared.valueobjects.mesurament.Weight;
 import com.example.deliverybooks.domain.shared.valueobjects.mesurament.WeightUnit;
 
-class WeightTest {
-
+public class WeightTests {
     @Test
     void shouldCreateValidWeightAndConvertUnits() {
         Weight w = Weight.of(new BigDecimal("2"), WeightUnit.KILOGRAMS);

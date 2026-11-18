@@ -1,11 +1,12 @@
 package com.example.deliverybooks.functionals_manual.books;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import org.junit.jupiter.api.Test;
+
 import com.example.deliverybooks.domain.books.Isbn;
 
-class IsbnTest {
-
+public class IsbnTests {
     @Test
     void shouldCreateValidIsbn() {
         assertNotNull(Isbn.of("978-0-13-468599-1"));

@@ -6,7 +6,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import com.example.deliverybooks.domain.clients.Client;
-import com.example.deliverybooks.domain.shared.validations.Checker;
+import com.example.deliverybooks.domain.shared.validations.Check;
 
 public class Order {
     private final long id;
@@ -15,10 +15,9 @@ public class Order {
     private final Set<OrderDetails> books = new HashSet<>();
 
     private Order(long id, Client client, LocalDateTime orderTime) {
-        if (id <= 0) throw new IllegalArgumentException("id must be positive");
-        this.id = id;
-        this.client = Checker.notNull(client, "client");
-        this.orderTime = Checker.notNull(orderTime, "orderTime");
+        this.id = Check.positiveLong(id, "id");
+        this.client = Check.notNull(client, "client");
+        this.orderTime = Check.notNull(orderTime, "orderTime");
     }
 
     public static Order of(long id, Client client, LocalDateTime orderTime) {
@@ -30,5 +29,5 @@ public class Order {
     public LocalDateTime getOrderTime() { return orderTime; }
     public Set<OrderDetails> getBooks() { return Collections.unmodifiableSet(books); }
 
-    public void addDetail(OrderDetails detail) { books.add(Checker.notNull(detail, "detail")); }
+    public void addDetail(OrderDetails detail) { books.add(Check.notNull(detail, "detail")); }
 }

@@ -1,13 +1,15 @@
 package com.example.deliverybooks.functionals_manual.shared;
 
-import static org.junit.jupiter.api.Assertions.*;
 import java.math.BigDecimal;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import org.junit.jupiter.api.Test;
+
 import com.example.deliverybooks.domain.shared.valueobjects.mesurament.Dimensions;
 import com.example.deliverybooks.domain.shared.valueobjects.mesurament.DistanceUnit;
 
-class DimensionsTest {
-
+public class DimensionsTests {
     @Test
     void shouldCreateValidDimensionsAndCalculateVolume() {
         Dimensions dim = Dimensions.of(new BigDecimal("20"), new BigDecimal("10"), new BigDecimal("2"), DistanceUnit.CENTIMETER);

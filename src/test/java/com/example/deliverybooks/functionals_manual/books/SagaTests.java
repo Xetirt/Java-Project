@@ -1,17 +1,17 @@
 package com.example.deliverybooks.functionals_manual.books;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import org.junit.jupiter.api.Test;
+
 import com.example.deliverybooks.domain.books.Genre;
 import com.example.deliverybooks.domain.books.Saga;
 
-class SagaTest {
-
+public class SagaTests {
     @Test
     void shouldCreateValidSaga() {
         Saga saga = Saga.of(1L, "Cosmere", "Universo literario");
         saga.addGenre(Genre.FANTASY);
-
         assertEquals("Cosmere", saga.getName());
         assertEquals(1, saga.getGenres().size());
     }

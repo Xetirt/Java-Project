@@ -1,13 +1,17 @@
 package com.example.deliverybooks.functionals_manual.publishers;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import org.junit.jupiter.api.Test;
+
 import com.example.deliverybooks.domain.clients.Cif;
 import com.example.deliverybooks.domain.publishers.Publisher;
-import com.example.deliverybooks.domain.shared.valueobjects.*;
+import com.example.deliverybooks.domain.shared.valueobjects.Addressr;
+import com.example.deliverybooks.domain.shared.valueobjects.Email;
+import com.example.deliverybooks.domain.shared.valueobjects.Phone;
+import com.example.deliverybooks.domain.shared.valueobjects.WebSite;
 
-class PublisherTest {
-
+public class PublisherTests {
     @Test
     void shouldCreateValidPublisher() {
         Publisher publisher = Publisher.of(
@@ -19,7 +23,6 @@ class PublisherTest {
                 Email.of("contacto@nova.es"),
                 WebSite.of("https://penguinlibros.com")
         );
-
         assertEquals("Nova", publisher.getName());
     }
 

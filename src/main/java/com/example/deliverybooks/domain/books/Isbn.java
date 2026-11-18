@@ -1,10 +1,10 @@
 package com.example.deliverybooks.domain.books;
 
-import com.example.deliverybooks.domain.shared.validations.Checker;
+import com.example.deliverybooks.domain.shared.validations.Check;
 
 public record Isbn(String value) {
     public Isbn {
-        value = Checker.notEmptyString(value);
+        value = Check.notEmptyString(value);
         String digits = value.replace("-", "");
         if (!digits.matches("^(\\d{10}|\\d{13})$")) {
             throw new IllegalArgumentException("Invalid ISBN (must have 10 or 13 digits): " + value);

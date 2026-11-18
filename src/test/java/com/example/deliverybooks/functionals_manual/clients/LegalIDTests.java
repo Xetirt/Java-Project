@@ -1,11 +1,14 @@
 package com.example.deliverybooks.functionals_manual.clients;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import org.junit.jupiter.api.Test;
-import com.example.deliverybooks.domain.clients.*;
 
-class LegalIDTest {
+import com.example.deliverybooks.domain.clients.Cif;
+import com.example.deliverybooks.domain.clients.Nie;
+import com.example.deliverybooks.domain.clients.Nif;
 
+public class LegalIDTests {
     @Test
     void shouldCreateValidLegalIDs() {
         assertEquals("12345678A", Nif.of("12345678a").getLegalID());

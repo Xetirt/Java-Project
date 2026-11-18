@@ -8,13 +8,11 @@ import org.junit.jupiter.api.Test;
 import com.example.deliverybooks.domain.shared.valueobjects.Addressc;
 import com.example.deliverybooks.domain.shared.valueobjects.Addressr;
 
-class AddressTest {
-
+public class AddressTests {
     @Test
     void shouldCreateValidAddresses() {
         Addressc ac = Addressc.of("Calle Mayor 12", "Madrid", "28001", "España");
         Addressr ar = Addressr.of("Calle Mayor 12", "Madrid", "28001", "España");
-
         assertTrue(ac.getValue().contains("Madrid"));
         assertEquals("Madrid", ar.city());
     }

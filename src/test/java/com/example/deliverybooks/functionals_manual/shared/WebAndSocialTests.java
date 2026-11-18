@@ -1,16 +1,18 @@
 package com.example.deliverybooks.functionals_manual.shared;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import org.junit.jupiter.api.Test;
-import com.example.deliverybooks.domain.shared.valueobjects.*;
 
-class WebAndSocialTest {
+import com.example.deliverybooks.domain.shared.valueobjects.SocialMediaProfile;
+import com.example.deliverybooks.domain.shared.valueobjects.SocialNetwork;
+import com.example.deliverybooks.domain.shared.valueobjects.WebSite;
 
+public class WebAndSocialTests {
     @Test
     void shouldCreateValidWebSiteAndProfile() {
         WebSite web = WebSite.of("https://editorial.es");
         SocialMediaProfile profile = SocialMediaProfile.of(SocialNetwork.INSTAGRAM, web);
-
         assertEquals("https://editorial.es", web.url());
         assertEquals(SocialNetwork.INSTAGRAM, profile.socialNetwork());
     }

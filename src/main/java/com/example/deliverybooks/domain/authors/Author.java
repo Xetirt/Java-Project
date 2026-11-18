@@ -4,10 +4,11 @@ import java.time.LocalDate;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
+
 import com.example.deliverybooks.domain.books.Book;
 import com.example.deliverybooks.domain.books.Genre;
 import com.example.deliverybooks.domain.books.Saga;
-import com.example.deliverybooks.domain.shared.validations.Checker;
+import com.example.deliverybooks.domain.shared.validations.Check;
 import com.example.deliverybooks.domain.shared.valueobjects.SocialMediaProfile;
 import com.example.deliverybooks.domain.shared.valueobjects.WebSite;
 
@@ -23,10 +24,9 @@ public class Author {
     private final Set<SocialMediaProfile> profiles = new HashSet<>();
 
     private Author(long authorId, String fullName, LocalDate birthdate, String biography, WebSite webSite) {
-        if (authorId <= 0) throw new IllegalArgumentException("authorId must be positive");
-        this.authorId = authorId;
-        this.fullName = Checker.minLengthString(fullName, 2);
-        this.birthdate = Checker.notNull(birthdate, "birthdate");
+        this.authorId = Check.positiveLong(authorId, "authorId");
+        this.fullName = Check.minLengthString(fullName, 2);
+        this.birthdate = Check.notFutureDate(birthdate, "birthdate");
         this.biography = biography != null ? biography.trim() : "";
         this.webSite = webSite;
     }
@@ -45,8 +45,8 @@ public class Author {
     public Set<Saga> getSagas() { return Collections.unmodifiableSet(sagas); }
     public Set<SocialMediaProfile> getProfiles() { return Collections.unmodifiableSet(profiles); }
 
-    public void addBook(Book book) { bibliography.add(Checker.notNull(book, "book")); }
-    public void addGenre(Genre genre) { genres.add(Checker.notNull(genre, "genre")); }
-    public void addSaga(Saga saga) { sagas.add(Checker.notNull(saga, "saga")); }
-    public void addProfile(SocialMediaProfile profile) { profiles.add(Checker.notNull(profile, "profile")); }
+    public void addBook(Book book) { bibliography.add(Check.notNull(book, "book")); }
+    public void addGenre(Genre genre) { genres.add(Check.notNull(genre, "genre")); }
+    public void addSaga(Saga saga) { sagas.add(Check.notNull(saga, "saga")); }
+    public void addProfile(SocialMediaProfile profile) { profiles.add(Check.notNull(profile, "profile")); }
 }

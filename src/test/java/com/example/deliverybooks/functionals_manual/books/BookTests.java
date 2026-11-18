@@ -12,8 +12,7 @@ import com.example.deliverybooks.domain.shared.valueobjects.*;
 import com.example.deliverybooks.domain.shared.valueobjects.mesurament.*;
 import com.example.deliverybooks.domain.shared.valueobjects.money.*;
 
-class BookTest {
-
+public class BookTests {
     @Test
     void shouldCreateValidBook() {
         Author author = Author.of(1L, "Joshua Bloch", LocalDate.of(1961, 8, 28), "", null);
@@ -39,7 +38,6 @@ class BookTest {
                 Money.of(new BigDecimal("45.99"), Currency.values()[0])
         );
         book.addGenre(Genre.NON_FICTION);
-
         assertEquals("Effective Java", book.getTitle());
         assertEquals(1, book.getGenres().size());
     }

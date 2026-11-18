@@ -1,13 +1,15 @@
 package com.example.deliverybooks.functionals_manual.shared;
 
-import static org.junit.jupiter.api.Assertions.*;
 import java.math.BigDecimal;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import org.junit.jupiter.api.Test;
+
 import com.example.deliverybooks.domain.shared.valueobjects.mesurament.Distance;
 import com.example.deliverybooks.domain.shared.valueobjects.mesurament.DistanceUnit;
 
-class DistanceTest {
-
+public class DistanceTests {
     @Test
     void shouldCreateValidDistanceAndConvertUnits() {
         Distance d = Distance.of(new BigDecimal("5"), DistanceUnit.KILOMETER);

@@ -6,8 +6,7 @@ import org.junit.jupiter.api.Test;
 
 import com.example.deliverybooks.domain.shared.valueobjects.Phone;
 
-class PhoneTest {
-
+public class PhoneTests {
     @Test
     void shouldCreateValidPhone() {
         assertEquals("612345678", Phone.of("+34 612 34 56 78").phone());

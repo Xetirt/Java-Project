@@ -3,15 +3,12 @@ package com.example.deliverybooks.domain.shared.valueobjects.money;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 
-import com.example.deliverybooks.domain.shared.validations.Checker;
+import com.example.deliverybooks.domain.shared.validations.Check;
 
 public record Money(BigDecimal value, Currency currency) {
     public Money {
-        Checker.notNull(value, "Amount");
-        Checker.notNull(currency, "Currency");
-        if (value.compareTo(BigDecimal.ZERO) < 0) {
-            throw new IllegalArgumentException("Amount cannot be negative");
-        }
+        Check.nonNegative(value, "Amount");
+        Check.notNull(currency, "Currency");
         value = value.setScale(2, RoundingMode.HALF_UP);
     }
 

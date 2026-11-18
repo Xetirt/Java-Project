@@ -3,19 +3,19 @@ package com.example.deliverybooks.domain.clients;
 import java.util.Objects;
 import com.example.deliverybooks.domain.shared.validations.Check;
 
-public final class Nif implements LegalID {
+public final class Cif implements LegalID {
     private final String legalID;
 
-    private Nif(String legalID) {
+    private Cif(String legalID) {
         String normalized = Check.notEmptyString(legalID).toUpperCase();
-        if (!normalized.matches("^[0-9]{8}[A-Z]$")) {
-            throw new IllegalArgumentException("Invalid NIF format: " + legalID);
+        if (!normalized.matches("^[ABCDEFGHJKLMNPQRSUVW][0-9]{7}[0-9A-J]$")) {
+            throw new IllegalArgumentException("Invalid CIF format: " + legalID);
         }
         this.legalID = normalized;
     }
 
-    public static Nif of(String legalID) {
-        return new Nif(legalID);
+    public static Cif of(String legalID) {
+        return new Cif(legalID);
     }
 
     @Override
@@ -25,12 +25,12 @@ public final class Nif implements LegalID {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        return Objects.equals(legalID, ((Nif) o).legalID);
+        return Objects.equals(legalID, ((Cif) o).legalID);
     }
 
     @Override
     public int hashCode() { return Objects.hash(legalID); }
 
     @Override
-    public String toString() { return "NIF{" + legalID + '}'; }
+    public String toString() { return "CIF{" + legalID + '}'; }
 }

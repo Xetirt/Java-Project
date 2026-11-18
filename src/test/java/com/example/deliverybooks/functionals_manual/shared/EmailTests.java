@@ -1,11 +1,12 @@
 package com.example.deliverybooks.functionals_manual.shared;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import org.junit.jupiter.api.Test;
+
 import com.example.deliverybooks.domain.shared.valueobjects.Email;
 
-class EmailTest {
-
+public class EmailTests {
     @Test
     void shouldCreateValidEmail() {
         Email email = Email.of("xavier.ramirez@example.com");

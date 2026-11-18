@@ -6,7 +6,7 @@ import java.util.Set;
 
 import com.example.deliverybooks.domain.books.Book;
 import com.example.deliverybooks.domain.clients.LegalID;
-import com.example.deliverybooks.domain.shared.validations.Checker;
+import com.example.deliverybooks.domain.shared.validations.Check;
 import com.example.deliverybooks.domain.shared.valueobjects.Addressr;
 import com.example.deliverybooks.domain.shared.valueobjects.Email;
 import com.example.deliverybooks.domain.shared.valueobjects.Phone;
@@ -26,13 +26,12 @@ public class Publisher {
 
     private Publisher(long publisherId, String name, LegalID legalId, Addressr address,
                       Phone phone, Email email, WebSite webSite) {
-        if (publisherId <= 0) throw new IllegalArgumentException("publisherId must be positive");
-        this.publisherId = publisherId;
-        this.name = Checker.minLengthString(name, 2);
-        this.legalId = Checker.notNull(legalId, "legalId");
-        this.address = Checker.notNull(address, "address");
-        this.phone = Checker.notNull(phone, "phone");
-        this.email = Checker.notNull(email, "email");
+        this.publisherId = Check.positiveLong(publisherId, "publisherId");
+        this.name = Check.minLengthString(name, 2);
+        this.legalId = Check.notNull(legalId, "legalId");
+        this.address = Check.notNull(address, "address");
+        this.phone = Check.notNull(phone, "phone");
+        this.email = Check.notNull(email, "email");
         this.webSite = webSite;
     }
 
@@ -51,6 +50,6 @@ public class Publisher {
     public Set<Book> getBooks() { return Collections.unmodifiableSet(books); }
     public Set<SocialMediaProfile> getProfiles() { return Collections.unmodifiableSet(profiles); }
 
-    public void addBook(Book book) { books.add(Checker.notNull(book, "book")); }
-    public void addProfile(SocialMediaProfile profile) { profiles.add(Checker.notNull(profile, "profile")); }
+    public void addBook(Book book) { books.add(Check.notNull(book, "book")); }
+    public void addProfile(SocialMediaProfile profile) { profiles.add(Check.notNull(profile, "profile")); }
 }

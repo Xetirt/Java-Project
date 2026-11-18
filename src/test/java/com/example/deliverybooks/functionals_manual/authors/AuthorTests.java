@@ -7,8 +7,7 @@ import com.example.deliverybooks.domain.authors.Author;
 import com.example.deliverybooks.domain.books.Genre;
 import com.example.deliverybooks.domain.shared.valueobjects.*;
 
-class AuthorTest {
-
+public class AuthorTests {
     @Test
     void shouldCreateValidAuthor() {
         Author author = Author.of(
@@ -20,7 +19,6 @@ class AuthorTest {
         );
         author.addGenre(Genre.FANTASY);
         author.addProfile(SocialMediaProfile.of(SocialNetwork.YOUTUBE, WebSite.of("https://youtube.com")));
-
         assertEquals("Brandon Sanderson", author.getFullName());
         assertEquals(1, author.getGenres().size());
     }

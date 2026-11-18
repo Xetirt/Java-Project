@@ -1,21 +1,35 @@
 package com.example.deliverybooks.functionals_manual.orders;
 
-import static org.junit.jupiter.api.Assertions.*;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import org.junit.jupiter.api.Test;
+
 import com.example.deliverybooks.domain.authors.Author;
-import com.example.deliverybooks.domain.books.*;
-import com.example.deliverybooks.domain.clients.*;
-import com.example.deliverybooks.domain.orders.*;
+import com.example.deliverybooks.domain.books.BindingType;
+import com.example.deliverybooks.domain.books.Book;
+import com.example.deliverybooks.domain.books.Isbn;
+import com.example.deliverybooks.domain.clients.Cif;
+import com.example.deliverybooks.domain.clients.Client;
+import com.example.deliverybooks.domain.clients.Nif;
+import com.example.deliverybooks.domain.orders.Order;
+import com.example.deliverybooks.domain.orders.OrderDetails;
 import com.example.deliverybooks.domain.publishers.Publisher;
-import com.example.deliverybooks.domain.shared.valueobjects.*;
-import com.example.deliverybooks.domain.shared.valueobjects.mesurament.*;
-import com.example.deliverybooks.domain.shared.valueobjects.money.*;
+import com.example.deliverybooks.domain.shared.valueobjects.Addressc;
+import com.example.deliverybooks.domain.shared.valueobjects.Addressr;
+import com.example.deliverybooks.domain.shared.valueobjects.Email;
+import com.example.deliverybooks.domain.shared.valueobjects.Phone;
+import com.example.deliverybooks.domain.shared.valueobjects.mesurament.Dimensions;
+import com.example.deliverybooks.domain.shared.valueobjects.mesurament.DistanceUnit;
+import com.example.deliverybooks.domain.shared.valueobjects.mesurament.Weight;
+import com.example.deliverybooks.domain.shared.valueobjects.mesurament.WeightUnit;
+import com.example.deliverybooks.domain.shared.valueobjects.money.Currency;
+import com.example.deliverybooks.domain.shared.valueobjects.money.Money;
 
-class OrderTest {
-
+public class OrderTests {
     @Test
     void shouldCreateValidOrderAndDetails() {
         Client client = Client.of(1L, "Xavier Ramírez", Nif.of("12345678Z"),
@@ -36,7 +50,6 @@ class OrderTest {
 
         Order order = Order.of(1L, client, LocalDateTime.now());
         order.addDetail(OrderDetails.of(book, 2, new BigDecimal("45.99")));
-
         assertEquals(1, order.getBooks().size());
     }
 
