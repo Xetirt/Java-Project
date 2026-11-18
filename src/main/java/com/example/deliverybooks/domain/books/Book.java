@@ -1,75 +1,82 @@
 package com.example.deliverybooks.domain.books;
 
-import java.math.BigDecimal;
-import java.util.Objects;
 import java.time.LocalDate;
-import java.util.Set;
+import java.util.Collections;
 import java.util.HashSet;
+import java.util.Set;
 
+import com.example.deliverybooks.domain.authors.Author;
+import com.example.deliverybooks.domain.publishers.Publisher;
+import com.example.deliverybooks.domain.shared.validations.Checker;
 import com.example.deliverybooks.domain.shared.valueobjects.mesurament.Dimensions;
 import com.example.deliverybooks.domain.shared.valueobjects.mesurament.Weight;
+import com.example.deliverybooks.domain.shared.valueobjects.money.Money;
 
 public class Book {
-
-    private String isbn;
+    private final long bookId;
+    private Isbn isbn;
     private String title;
-    private String author;
+    private final Set<Author> authors = new HashSet<>();
     private LocalDate releaseDate;
+    private Publisher publisher;
     private String language;
     private int minimumAge;
-    private BindingType binding; //Hacer el valueobject BindingType.php
-    private Dimensions dimensions; //Hacer el valueobject Dimensions.php
+    private int totalPages;
+    private BindingType binding;
+    private Dimensions dimensions;
     private Weight weight;
-    private String saga;
+    private Saga saga;
     private String sinopsis;
-    private Set<String> Genre = new HashSet<>();
-    private BigDecimal price;
+    private final Set<Genre> genres = new HashSet<>();
+    private Money price;
 
-    public Book(String isbn, String title, String author, BigDecimal price, Weight weight) {
-        this.isbn = Objects.requireNonNull(isbn, "ISBN cannot be null");
-        this.title = Objects.requireNonNull(title, "Title cannot be null");
-        this.author = Objects.requireNonNull(author, "Author cannot be null");
-        this.price = Objects.requireNonNull(price, "Price cannot be null");
-        this.weight = Objects.requireNonNull(weight, "Weight cannot be null");
+    private Book(long bookId, Isbn isbn, String title, Author author, LocalDate releaseDate,
+                 Publisher publisher, String language, int minimumAge, int totalPages,
+                 BindingType binding, Dimensions dimensions, Weight weight,
+                 Saga saga, String sinopsis, Money price) {
+        if (bookId <= 0) throw new IllegalArgumentException("bookId must be positive");
+        this.bookId = bookId;
+        this.isbn = Checker.notNull(isbn, "isbn");
+        this.title = Checker.notEmptyString(title);
+        this.authors.add(Checker.notNull(author, "author"));
+        this.releaseDate = Checker.notNull(releaseDate, "releaseDate");
+        this.publisher = Checker.notNull(publisher, "publisher");
+        this.language = Checker.notEmptyString(language);
+        this.minimumAge = Checker.nonNegative(minimumAge, "minimumAge");
+        this.totalPages = Checker.positiveInt(totalPages, "totalPages");
+        this.binding = Checker.notNull(binding, "binding");
+        this.dimensions = Checker.notNull(dimensions, "dimensions");
+        this.weight = Checker.notNull(weight, "weight");
+        this.saga = saga;
+        this.sinopsis = sinopsis != null ? sinopsis.trim() : "";
+        this.price = Checker.notNull(price, "price");
     }
 
-    public String getIsbn() {
-        return isbn;
+    public static Book of(long bookId, Isbn isbn, String title, Author author, LocalDate releaseDate,
+                          Publisher publisher, String language, int minimumAge, int totalPages,
+                          BindingType binding, Dimensions dimensions, Weight weight,
+                          Saga saga, String sinopsis, Money price) {
+        return new Book(bookId, isbn, title, author, releaseDate, publisher, language,
+                minimumAge, totalPages, binding, dimensions, weight, saga, sinopsis, price);
     }
 
-    public void setIsbn(String isbn) {
-        this.isbn = Objects.requireNonNull(isbn, "ISBN cannot be null");
-    }
+    public long getBookId() { return bookId; }
+    public Isbn getIsbn() { return isbn; }
+    public String getTitle() { return title; }
+    public Set<Author> getAuthors() { return Collections.unmodifiableSet(authors); }
+    public LocalDate getReleaseDate() { return releaseDate; }
+    public Publisher getPublisher() { return publisher; }
+    public String getLanguage() { return language; }
+    public int getMinimumAge() { return minimumAge; }
+    public int getTotalPages() { return totalPages; }
+    public BindingType getBinding() { return binding; }
+    public Dimensions getDimensions() { return dimensions; }
+    public Weight getWeight() { return weight; }
+    public Saga getSaga() { return saga; }
+    public String getSinopsis() { return sinopsis; }
+    public Set<Genre> getGenres() { return Collections.unmodifiableSet(genres); }
+    public Money getPrice() { return price; }
 
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = Objects.requireNonNull(title, "Title cannot be null");
-    }
-
-    public String getAuthor() {
-        return author;
-    }
-
-    public void setAuthor(String author) {
-        this.author = Objects.requireNonNull(author, "Author cannot be null");
-    }
-
-    public BigDecimal getPrice() {
-        return price;
-    }
-
-    public void setPrice(BigDecimal price) {
-        this.price = Objects.requireNonNull(price, "Price cannot be null");
-    }
-
-    public Weight getWeight() {
-        return weight;
-    }
-
-    public void setWeight(Weight weight) {
-        this.weight = Objects.requireNonNull(weight, "Weight cannot be null");
-    }
+    public void addAuthor(Author author) { authors.add(Checker.notNull(author, "author")); }
+    public void addGenre(Genre genre) { genres.add(Checker.notNull(genre, "genre")); }
 }
