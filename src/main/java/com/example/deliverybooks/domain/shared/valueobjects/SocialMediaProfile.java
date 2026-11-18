@@ -1,14 +1,17 @@
 package com.example.deliverybooks.domain.shared.valueobjects;
 
-import com.example.deliverybooks.domain.shared.validations.Checker;
+import com.example.deliverybooks.domain.shared.validations.Check;
 
-public record SocialMediaProfile(SocialNetwork socialNetwork, WebSite url) {
-    public SocialMediaProfile {
-        Checker.notNull(socialNetwork, "SocialNetwork");
-        Checker.notNull(url, "WebSite");
+public record WebSite(String url) {
+    public WebSite {
+        url = Check.notEmptyString(url);
+        if (!url.matches("^https?://.+\\..+$")) {
+            throw new IllegalArgumentException("Invalid WebSite URL: " + url);
+        }
     }
 
-    public static SocialMediaProfile of(SocialNetwork socialNetwork, WebSite url) {
-        return new SocialMediaProfile(socialNetwork, url);
-    }
+    public static WebSite of(String url) { return new WebSite(url); }
+
+    @Override
+    public String toString() { return url; }
 }

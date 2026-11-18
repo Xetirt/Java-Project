@@ -1,26 +1,25 @@
 package com.example.deliverybooks.functionals_manual.shared;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import org.junit.jupiter.api.Test;
+
 import com.example.deliverybooks.domain.shared.valueobjects.Phone;
 
-public final class PhoneTests {
-    public static void main(String[] args) {
-        int passed = 0, failed = 0;
+class PhoneTest {
 
-        for (String valid : new String[]{"+34 612 34 56 78", "931234567", "0034-600-123-456"}) {
-            try {
-                Phone p = new Phone(valid);
-                if (p.phone().length() != 9) throw new IllegalStateException();
-                System.out.println("[VERDE] Phone válido: " + p.phone()); passed++;
-            } catch (Exception e) { System.out.println("[ROJO] " + e.getMessage()); failed++; }
-        }
+    @Test
+    void shouldCreateValidPhone() {
+        assertEquals("612345678", Phone.of("+34 612 34 56 78").phone());
+        assertEquals("931234567", Phone.of("931234567").phone());
+        assertEquals("600123456", Phone.of("0034-600-123-456").phone());
+    }
 
-        for (String invalid : new String[]{null, "", "512345678", "123"}) {
-            try {
-                new Phone(invalid);
-                System.out.println("[ROJO] Phone inválido aceptado: " + invalid); failed++;
-            } catch (IllegalArgumentException e) { System.out.println("[VERDE] Phone rechazado: " + invalid); passed++; }
-        }
-
-        System.out.println("Phone: " + passed + " OK, " + failed + " FAIL");
+    @Test
+    void shouldThrowExceptionWhenPhoneIsInvalid() {
+        assertThrows(IllegalArgumentException.class, () -> Phone.of(null));
+        assertThrows(IllegalArgumentException.class, () -> Phone.of(""));
+        assertThrows(IllegalArgumentException.class, () -> Phone.of("512345678"));
+        assertThrows(IllegalArgumentException.class, () -> Phone.of("123"));
     }
 }

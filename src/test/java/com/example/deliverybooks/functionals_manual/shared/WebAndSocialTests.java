@@ -1,30 +1,25 @@
 package com.example.deliverybooks.functionals_manual.shared;
 
-import com.example.deliverybooks.domain.shared.valueobjects.SocialMediaProfile;
-import com.example.deliverybooks.domain.shared.valueobjects.SocialNetwork;
-import com.example.deliverybooks.domain.shared.valueobjects.WebSite;
+import static org.junit.jupiter.api.Assertions.*;
+import org.junit.jupiter.api.Test;
+import com.example.deliverybooks.domain.shared.valueobjects.*;
 
-public final class WebAndSocialTests {
-    public static void main(String[] args) {
-        int passed = 0, failed = 0;
+class WebAndSocialTest {
 
-        try {
-            WebSite web = WebSite.of("https://editorial.es");
-            SocialMediaProfile smp = SocialMediaProfile.of(SocialNetwork.INSTAGRAM, web);
-            if (smp.socialNetwork() != SocialNetwork.INSTAGRAM) throw new IllegalStateException();
-            System.out.println("[VERDE] WebSite y SocialMediaProfile válidos"); passed++;
-        } catch (Exception e) { System.out.println("[ROJO] " + e.getMessage()); failed++; }
+    @Test
+    void shouldCreateValidWebSiteAndProfile() {
+        WebSite web = WebSite.of("https://editorial.es");
+        SocialMediaProfile profile = SocialMediaProfile.of(SocialNetwork.INSTAGRAM, web);
 
-        try {
-            WebSite.of("url-sin-protocolo");
-            System.out.println("[ROJO] URL inválida aceptada"); failed++;
-        } catch (IllegalArgumentException e) { System.out.println("[VERDE] URL inválida rechazada"); passed++; }
+        assertEquals("https://editorial.es", web.url());
+        assertEquals(SocialNetwork.INSTAGRAM, profile.socialNetwork());
+    }
 
-        try {
-            SocialMediaProfile.of(null, WebSite.of("https://editorial.es"));
-            System.out.println("[ROJO] Red social nula aceptada"); failed++;
-        } catch (IllegalArgumentException e) { System.out.println("[VERDE] Red social nula rechazada"); passed++; }
-
-        System.out.println("Web & Social: " + passed + " OK, " + failed + " FAIL");
+    @Test
+    void shouldThrowExceptionWhenWebSiteOrProfileIsInvalid() {
+        assertThrows(IllegalArgumentException.class, () -> WebSite.of(null));
+        assertThrows(IllegalArgumentException.class, () -> WebSite.of("url-sin-protocolo"));
+        assertThrows(IllegalArgumentException.class, () -> SocialMediaProfile.of(null, WebSite.of("https://editorial.es")));
+        assertThrows(IllegalArgumentException.class, () -> SocialMediaProfile.of(SocialNetwork.YOUTUBE, null));
     }
 }

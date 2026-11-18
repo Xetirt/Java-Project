@@ -1,24 +1,22 @@
 package com.example.deliverybooks.functionals_manual.shared;
 
+import static org.junit.jupiter.api.Assertions.*;
+import org.junit.jupiter.api.Test;
 import com.example.deliverybooks.domain.shared.valueobjects.Email;
 
-public final class EmailTests {
-    public static void main(String[] args) {
-        int passed = 0, failed = 0;
+class EmailTest {
 
-        try {
-            Email email = new Email("xavier.ramirez@example.com");
-            if (!"xavier.ramirez@example.com".equals(email.email())) throw new IllegalStateException();
-            System.out.println("[VERDE] Email válido"); passed++;
-        } catch (Exception e) { System.out.println("[ROJO] " + e.getMessage()); failed++; }
+    @Test
+    void shouldCreateValidEmail() {
+        Email email = Email.of("xavier.ramirez@example.com");
+        assertEquals("xavier.ramirez@example.com", email.email());
+    }
 
-        for (String invalid : new String[]{null, "", "sin-arroba", "a@b.c"}) {
-            try {
-                new Email(invalid);
-                System.out.println("[ROJO] Email inválido aceptado: " + invalid); failed++;
-            } catch (IllegalArgumentException e) { System.out.println("[VERDE] Email rechazado: " + invalid); passed++; }
-        }
-
-        System.out.println("Email: " + passed + " OK, " + failed + " FAIL");
+    @Test
+    void shouldThrowExceptionWhenEmailIsInvalid() {
+        assertThrows(IllegalArgumentException.class, () -> Email.of(null));
+        assertThrows(IllegalArgumentException.class, () -> Email.of(""));
+        assertThrows(IllegalArgumentException.class, () -> Email.of("sin-arroba.com"));
+        assertThrows(IllegalArgumentException.class, () -> Email.of("a@b.c"));
     }
 }

@@ -1,25 +1,25 @@
 package com.example.deliverybooks.functionals_manual.shared;
 
+import static org.junit.jupiter.api.Assertions.*;
 import java.math.BigDecimal;
-
+import org.junit.jupiter.api.Test;
 import com.example.deliverybooks.domain.shared.valueobjects.mesurament.Weight;
 import com.example.deliverybooks.domain.shared.valueobjects.mesurament.WeightUnit;
 
-public final class WeightTests {
-    public static void main(String[] args) {
-        int passed = 0, failed = 0;
+class WeightTest {
 
-        try {
-            Weight w = new Weight(new BigDecimal("2"), WeightUnit.KILOGRAMS);
-            if (w.value().compareTo(new BigDecimal("2000")) != 0) throw new IllegalStateException();
-            System.out.println("[VERDE] Weight válido: " + w.getValueIn(WeightUnit.POUNDS) + " lbs"); passed++;
-        } catch (Exception e) { System.out.println("[ROJO] " + e.getMessage()); failed++; }
+    @Test
+    void shouldCreateValidWeightAndConvertUnits() {
+        Weight w = Weight.of(new BigDecimal("2"), WeightUnit.KILOGRAMS);
+        assertEquals(0, w.value().compareTo(new BigDecimal("2000")));
+        assertEquals(WeightUnit.GRAMS, w.unit());
+    }
 
-        try {
-            new Weight(new BigDecimal("-5"), WeightUnit.GRAMS);
-            System.out.println("[ROJO] Peso negativo aceptado"); failed++;
-        } catch (IllegalArgumentException e) { System.out.println("[VERDE] Peso negativo rechazado"); passed++; }
-
-        System.out.println("Weight: " + passed + " OK, " + failed + " FAIL");
+    @Test
+    void shouldThrowExceptionWhenWeightIsInvalid() {
+        assertThrows(IllegalArgumentException.class, () -> Weight.of(BigDecimal.ZERO, WeightUnit.GRAMS));
+        assertThrows(IllegalArgumentException.class, () -> Weight.of(new BigDecimal("-5"), WeightUnit.GRAMS));
+        assertThrows(IllegalArgumentException.class, () -> Weight.of(null, WeightUnit.GRAMS));
+        assertThrows(IllegalArgumentException.class, () -> Weight.of(BigDecimal.ONE, null));
     }
 }

@@ -1,23 +1,24 @@
 package com.example.deliverybooks.functionals_manual.books;
 
-import com.example.deliverybooks.domain.books.*;
+import static org.junit.jupiter.api.Assertions.*;
+import org.junit.jupiter.api.Test;
+import com.example.deliverybooks.domain.books.Genre;
+import com.example.deliverybooks.domain.books.Saga;
 
-public final class SagaTests {
-    public static void main(String[] args) {
-        int passed = 0, failed = 0;
+class SagaTest {
 
-        try {
-            Saga s = Saga.of(1L, "Cosmere", "Universo literario");
-            s.addGenre(Genre.FANTASY);
-            if (s.getGenres().size() != 1) throw new IllegalStateException();
-            System.out.println("[VERDE] Saga válida: " + s.getName()); passed++;
-        } catch (Exception e) { System.out.println("[ROJO] " + e.getMessage()); failed++; }
+    @Test
+    void shouldCreateValidSaga() {
+        Saga saga = Saga.of(1L, "Cosmere", "Universo literario");
+        saga.addGenre(Genre.FANTASY);
 
-        try {
-            Saga.of(0L, "A", "");
-            System.out.println("[ROJO] Saga inválida aceptada"); failed++;
-        } catch (IllegalArgumentException e) { System.out.println("[VERDE] Saga inválida rechazado"); passed++; }
+        assertEquals("Cosmere", saga.getName());
+        assertEquals(1, saga.getGenres().size());
+    }
 
-        System.out.println("Saga: " + passed + " OK, " + failed + " FAIL");
+    @Test
+    void shouldThrowExceptionWhenSagaDataIsInvalid() {
+        assertThrows(IllegalArgumentException.class, () -> Saga.of(0L, "Cosmere", ""));
+        assertThrows(IllegalArgumentException.class, () -> Saga.of(1L, "A", ""));
     }
 }

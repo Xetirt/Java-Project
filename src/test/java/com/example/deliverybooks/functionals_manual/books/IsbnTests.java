@@ -1,25 +1,22 @@
 package com.example.deliverybooks.functionals_manual.books;
 
+import static org.junit.jupiter.api.Assertions.*;
+import org.junit.jupiter.api.Test;
 import com.example.deliverybooks.domain.books.Isbn;
 
-public final class IsbnTests {
-    public static void main(String[] args) {
-        int passed = 0, failed = 0;
+class IsbnTest {
 
-        try {
-            Isbn isbn13 = Isbn.of("978-0-13-468599-1");
-            Isbn isbn10 = Isbn.of("0134685997");
-            if (isbn13.value().isEmpty() || isbn10.value().isEmpty()) throw new IllegalStateException();
-            System.out.println("[VERDE] ISBN-10 e ISBN-13 válidos"); passed++;
-        } catch (Exception e) { System.out.println("[ROJO] " + e.getMessage()); failed++; }
+    @Test
+    void shouldCreateValidIsbn() {
+        assertNotNull(Isbn.of("978-0-13-468599-1"));
+        assertNotNull(Isbn.of("0134685997"));
+    }
 
-        for (String invalid : new String[]{null, "", "12345", "ABCDEFGHIJ"}) {
-            try {
-                Isbn.of(invalid);
-                System.out.println("[ROJO] ISBN inválido aceptado: " + invalid); failed++;
-            } catch (IllegalArgumentException e) { System.out.println("[VERDE] ISBN rechazado: " + invalid); passed++; }
-        }
-
-        System.out.println("Isbn: " + passed + " OK, " + failed + " FAIL");
+    @Test
+    void shouldThrowExceptionWhenIsbnIsInvalid() {
+        assertThrows(IllegalArgumentException.class, () -> Isbn.of(null));
+        assertThrows(IllegalArgumentException.class, () -> Isbn.of(""));
+        assertThrows(IllegalArgumentException.class, () -> Isbn.of("12345"));
+        assertThrows(IllegalArgumentException.class, () -> Isbn.of("ABCDEFGHIJ"));
     }
 }

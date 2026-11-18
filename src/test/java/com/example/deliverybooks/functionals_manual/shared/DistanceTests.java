@@ -1,25 +1,24 @@
 package com.example.deliverybooks.functionals_manual.shared;
 
+import static org.junit.jupiter.api.Assertions.*;
 import java.math.BigDecimal;
-
+import org.junit.jupiter.api.Test;
 import com.example.deliverybooks.domain.shared.valueobjects.mesurament.Distance;
 import com.example.deliverybooks.domain.shared.valueobjects.mesurament.DistanceUnit;
 
-public final class DistanceTests {
-    public static void main(String[] args) {
-        int passed = 0, failed = 0;
+class DistanceTest {
 
-        try {
-            Distance d = Distance.of(new BigDecimal("5"), DistanceUnit.KILOMETER);
-            if (d.getValueIn(DistanceUnit.METER).compareTo(new BigDecimal("5000")) != 0) throw new IllegalStateException();
-            System.out.println("[VERDE] Distance válido: " + d.getValueIn(DistanceUnit.MILE) + " mi"); passed++;
-        } catch (Exception e) { System.out.println("[ROJO] " + e.getMessage()); failed++; }
+    @Test
+    void shouldCreateValidDistanceAndConvertUnits() {
+        Distance d = Distance.of(new BigDecimal("5"), DistanceUnit.KILOMETER);
+        assertEquals(0, d.getValueIn(DistanceUnit.METER).compareTo(new BigDecimal("5000")));
+    }
 
-        try {
-            Distance.of(BigDecimal.ZERO, DistanceUnit.METER);
-            System.out.println("[ROJO] Distancia 0 aceptada"); failed++;
-        } catch (IllegalArgumentException e) { System.out.println("[VERDE] Distancia <= 0 rechazada"); passed++; }
-
-        System.out.println("Distance: " + passed + " OK, " + failed + " FAIL");
+    @Test
+    void shouldThrowExceptionWhenDistanceIsInvalid() {
+        assertThrows(IllegalArgumentException.class, () -> Distance.of(BigDecimal.ZERO, DistanceUnit.METER));
+        assertThrows(IllegalArgumentException.class, () -> Distance.of(new BigDecimal("-2"), DistanceUnit.METER));
+        assertThrows(IllegalArgumentException.class, () -> Distance.of(null, DistanceUnit.METER));
+        assertThrows(IllegalArgumentException.class, () -> Distance.of(BigDecimal.ONE, null));
     }
 }
